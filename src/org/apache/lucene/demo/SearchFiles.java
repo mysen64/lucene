@@ -51,13 +51,13 @@ public class SearchFiles {
       System.exit(0);
    }
 
-    String index = "E:\\\\lucence_index_example";
+    String index = "E:\\lucence_index_example";
     String field = "contents";
     String queries = null;
     int repeat = 0;
     boolean raw = false;
     String queryString = "computer";
-    int hitsPerPage = 10;
+    int hitsPerPage = 20;
     
     for(int i = 0;i < args.length;i++) {
       if ("-index".equals(args[i])) {
@@ -157,7 +157,7 @@ public class SearchFiles {
 
     int start = 0;
     int end = Math.min(numTotalHits, hitsPerPage);
-        
+   
     while (true) {
       if (end > hits.length) {
         System.out.println("Only results 1 - " + hits.length +" of " + numTotalHits + " total matching documents collected.");
@@ -173,6 +173,7 @@ public class SearchFiles {
       end = Math.min(hits.length, start + hitsPerPage);
      
       for (int i = start; i < end; i++) {
+    	
         if (raw) {                              // output raw format
          System.out.println("doc="+hits[i].doc+" score="+hits[i].score);
           continue;
@@ -180,8 +181,9 @@ public class SearchFiles {
 
         Document doc = searcher.doc(hits[i].doc);
        String path = doc.get("path");
+
        if (path != null) {
-          System.out.println((i+1) + ". " + path);
+          System.out.println((i+1) + ". " + path+ " Skor: "+hits[i].score);
           String title = doc.get("title");
           if (title != null) {
            System.out.println("   Title: " + doc.get("title"));
